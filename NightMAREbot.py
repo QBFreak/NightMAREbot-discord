@@ -1,6 +1,6 @@
-class NightMAREbot():
+class NightMAREbot:
     """
-    Command handler for basic NightMAREbot functionality
+    Input handler for basic NightMAREbot functionality
     """
     def __init__(self, cmd_prefix):
         self.name = "NightMAREbot"
@@ -13,6 +13,7 @@ class NightMAREbot():
         if message.content.startswith(self.cmd_prefix + "quit"):
             raise NightMAREbotShutdown
         return None
+
 
 class NightMAREbotShutdown(Exception):
     pass

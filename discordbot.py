@@ -3,7 +3,7 @@ import discord
 import NightMAREbot
 
 cmd_prefix = "!"
-handlers = []
+handlers = list()
 handlers.append(NightMAREbot.NightMAREbot(cmd_prefix))
 
 f = open("token.txt", 'r')
@@ -21,23 +21,24 @@ if len(token) != 59:
 
 client = discord.Client()
 
+
 @client.event
 async def on_message(message):
     # we do not want the bot to reply to itself
     if message.author == client.user:
         return
 
-    if message.content.startswith(cmd_prefix):
-        for handler in handlers:
-            msg = None
-            try:
-                msg = handler.handle(message)
-            except NightMAREbot.NightMAREbotShutdown:
-                print("Shutdown requested.")
-                await client.send_message(message.channel, "Goodbye!")
-                await client.logout()
-            if msg != None:
-                await client.send_message(message.channel, msg)
+    for handler in handlers:
+        msg = None
+        try:
+            msg = handler.handle(message)
+        except NightMAREbot.NightMAREbotShutdown:
+            print("Shutdown requested.")
+            await client.send_message(message.channel, "Goodbye!")
+            await client.logout()
+        if msg:
+            await client.send_message(message.channel, msg)
+
 
 @client.event
 async def on_ready():
