@@ -29,7 +29,13 @@ async def on_message(message):
 
     if message.content.startswith(cmd_prefix):
         for handler in handlers:
-            msg = handler.handle(message)
+            msg = None
+            try:
+                msg = handler.handle(message)
+            except NightMAREbot.NightMAREbotShutdown:
+                print("Shutdown requested.")
+                await client.send_message(message.channel, "Goodbye!")
+                await client.logout()
             if msg != None:
                 await client.send_message(message.channel, msg)
 

@@ -10,4 +10,9 @@ class NightMAREbot():
     def handle(self, message):
         if message.content.startswith(self.cmd_prefix + "ping"):
             return "{0} Pong!".format(message.author.mention)
+        if message.content.startswith(self.cmd_prefix + "quit"):
+            raise NightMAREbotShutdown
         return None
+
+class NightMAREbotShutdown(Exception):
+    pass
